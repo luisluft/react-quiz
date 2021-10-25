@@ -45,6 +45,17 @@ const AppProvider = ({ children }) => {
     }
   };
 
+  const nextQuestion = () => {
+    setIndex((oldIndex) => {
+      const newIndex = oldIndex + 1;
+
+      if (newIndex > questions.length - 1) {
+        // open modal
+        return 0;
+      } else return newIndex;
+    });
+  };
+
   useEffect(() => {
     fetchQuestions(temporaryUrl);
   }, []);
@@ -59,6 +70,7 @@ const AppProvider = ({ children }) => {
         correct,
         error,
         isModalOpen,
+        nextQuestion,
       }}>
       {children}
     </AppContext.Provider>
