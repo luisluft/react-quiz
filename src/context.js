@@ -22,7 +22,7 @@ const AppProvider = ({ children }) => {
   const [index, setIndex] = useState(0);
   const [correct, setCorrect] = useState(0);
   const [error, setError] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const fetchQuestions = async (url) => {
     setLoading(true);
@@ -50,7 +50,7 @@ const AppProvider = ({ children }) => {
       const newIndex = oldIndex + 1;
 
       if (newIndex > questions.length - 1) {
-        // open modal
+        openModal();
         return 0;
       } else return newIndex;
     });
@@ -61,6 +61,16 @@ const AppProvider = ({ children }) => {
       setCorrect((currentState) => currentState + 1);
     }
     nextQuestion();
+  };
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setWaiting(true);
+    setCorrect(0);
+    setIsModalOpen(false);
   };
 
   useEffect(() => {
@@ -79,6 +89,7 @@ const AppProvider = ({ children }) => {
         isModalOpen,
         nextQuestion,
         checkAnswer,
+        closeModal,
       }}>
       {children}
     </AppContext.Provider>
