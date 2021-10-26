@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useContext, useEffect } from "react";
 
 const table = {
-  sports: 21,
+  mythology: 20,
   history: 23,
   politics: 24,
 };
@@ -43,10 +43,11 @@ const AppProvider = ({ children }) => {
         setLoading(false);
         setWaiting(false);
         setError(false);
+      } else {
+        setWaiting(true);
+        setLoading(false);
+        setError(true);
       }
-    } else {
-      setWaiting(true);
-      setError(true);
     }
   };
 
@@ -84,9 +85,12 @@ const AppProvider = ({ children }) => {
   };
 
   const handleSubmit = (event) => {
-    console.log("event :", event);
     event.preventDefault();
+    const { amount, category, difficulty } = quiz;
+    const url = `${API_ENDPOINT}amount=${amount}&difficulty=${difficulty}&category=${table[category]}&type=multiple`;
+    fetchQuestions(url);
   };
+
   return (
     <AppContext.Provider
       value={{
